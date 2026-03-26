@@ -1,0 +1,4 @@
+POST http://localhost:8080/shorten
+Content-Type: text/plain
+
+https://www.google.com
