@@ -1,6 +1,9 @@
 package com.urlshortener.url_shortener.controller;
 
 
+import com.urlshortener.url_shortener.dto.UrlRequest;
+import com.urlshortener.url_shortener.dto.UrlResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +21,12 @@ public class UrlController {
         this.urlServiceImpl = urlServiceImpl;
     }
 
+
     @PostMapping("/shorten")
-    public String create(@RequestBody String longUrl) {
-        String code = urlServiceImpl.shorten(longUrl);
-        return "http://localhost:8080/" + code + "\n";
+    public UrlResponse create(@Valid @RequestBody UrlRequest request) {
+        String code = urlServiceImpl.shorten(request.getUrl());
+        String shortUrl = "http://localhost:8080/" + code;
+        return new UrlResponse(shortUrl, request.getUrl());
     }
 
     @GetMapping("/{code}")
